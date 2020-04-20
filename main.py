@@ -8,7 +8,7 @@ import svm
 def draw_circle(event,x,y,flags,param):
 
     if flags == cv2.EVENT_FLAG_LBUTTON:
-        cv2.circle(img,(x,y),2,(255,255,255),-1)
+        cv2.circle(img,(x,y),3,(255,255,255),-1)
 
 def DigitRecognition(img):
     predict = svm.CardPredictor()
@@ -18,7 +18,7 @@ def DigitRecognition(img):
 
 if __name__ == '__main__':
     # 创建一个黑色图像，并绑定窗口和鼠标回调函数
-    img = np.zeros((100,100,3), np.uint8)
+    img = np.zeros((150,150,3), np.uint8)
     cv2.namedWindow('image')
     # 设置鼠标事件回调
     cv2.setMouseCallback('image',draw_circle)
@@ -27,7 +27,11 @@ if __name__ == '__main__':
         cv2.imshow('image',img)
         if cv2.waitKey(1) == ord('q'):
             break
+        if cv2.waitKey(1) == ord('n'):
+            cv2.imwrite("MousePaint03.png", img)
+            DigitRecognition(img)
+            img = np.zeros((150, 150, 3), np.uint8)
     cv2.destroyAllWindows()
 
-    cv2.imwrite("MousePaint03.png", img)
-    DigitRecognition(img)
+    #cv2.imwrite("MousePaint03.png", img)
+    #qDigitRecognition(img)
