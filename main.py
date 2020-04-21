@@ -25,13 +25,10 @@ if __name__ == '__main__':
 
     while(True):
         cv2.imshow('image',img)
-        if cv2.waitKey(1) == ord('q'):
+        if cv2.waitKey(1) == ord('q'):  #按q时结束运行
             break
-        if cv2.waitKey(1) == ord('n'):
-            cv2.imwrite("MousePaint03.png", img)
+        if cv2.waitKey(1) == ord('n'):  #按n时，识别并刷新，以便进行下次识别
+            cv2.imwrite("digit.png", img)
             DigitRecognition(img)
             img = np.zeros((150, 150, 3), np.uint8)
     cv2.destroyAllWindows()
-
-    #cv2.imwrite("MousePaint03.png", img)
-    #qDigitRecognition(img)

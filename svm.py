@@ -39,7 +39,6 @@ class CardPredictor:
     #    self.save_traindata()
 
     def train_svm(self):
-        # 识别英文字母和数字
         self.model = SVM(C=1, gamma=0.5)
         if os.path.exists("svm.dat"):
             self.model.load("svm.dat")
@@ -56,22 +55,19 @@ class CardPredictor:
                     digit_img = cv2.imread(filepath)
                     digit_img = cv2.cvtColor(digit_img, cv2.COLOR_BGR2GRAY)
                     chars_train.append(digit_img)
-                    # chars_label.append(1)
                     chars_label.append(root_int)
 
-            chars_train = list(map(img_recognition.deskew, chars_train))
-            chars_train = img_recognition.preprocess_hog(chars_train)
-            # chars_train = chars_train.reshape(-1, 20, 20).astype(np.float32)
+            chars_train = list(map(img_recognition.deskew, chars_train)) #对图片进行抗扭斜处理
+            chars_train = img_recognition.preprocess_hog(chars_train)    #获得hog特征
             chars_label = np.array(chars_label)
-            #print(chars_train.shape)
             self.model.train(chars_train, chars_label)
     def predict_digit(self):
         chars_train = []
-        digit_img = cv2.imread('MousePaint03.png')
-        digit_img = cv2.cvtColor(digit_img, cv2.COLOR_BGR2GRAY)
-        digit_img = cv2.resize(digit_img, (28, 28), interpolation=cv2.INTER_AREA)
+        digit_img = cv2.imread('digit.png')
+        digit_img = cv2.cvtColor(digit_img, cv2.COLOR_BGR2GRAY)  #灰度化
+        digit_img = cv2.resize(digit_img, (28, 28), interpolation=cv2.INTER_AREA) #调整尺寸
         chars_train.append(digit_img)
-        chars_train = list(map(img_recognition.deskew, chars_train))
+        chars_train = list(map(img_recognition.deskew, chars_train))  #抗扭斜处理
         chars_train = img_recognition.preprocess_hog(chars_train)
         ch = self.model.predict(chars_train)
         print(int(ch))
