@@ -4,10 +4,7 @@ import numpy as np
 from numpy.linalg import norm
 
 SZ = 28  # 训练图片长宽
-MAX_WIDTH = 1000  # 原始图片最大宽度
-Min_Area = 2000  # 车牌区域允许最大面积
-PROVINCE_START = 1000
-# 来自opencv的sample，用于svm训练
+
 def deskew(img):    #使用图片的二阶矩对其进行抗扭斜处理
     m = cv2.moments(img)
     if abs(m['mu02']) < 1e-2:
@@ -17,8 +14,6 @@ def deskew(img):    #使用图片的二阶矩对其进行抗扭斜处理
     img = cv2.warpAffine(img, M, (SZ, SZ), flags=cv2.WARP_INVERSE_MAP | cv2.INTER_LINEAR)
     return img
 
-
-# 来自opencv的sample，用于svm训练
 def preprocess_hog(digits):
     samples = []
     for img in digits:
